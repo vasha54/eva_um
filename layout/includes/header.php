@@ -16,7 +16,7 @@
 
 /**
  * Contains the header blocks.
- * @package    theme_eguru
+ * @package    theme_eva_um
  * @copyright  2015 onwards LMSACE Dev Team (http://www.lmsace.com)
  * @author     LMSACE Dev Team
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -30,7 +30,7 @@ $bodyattributes = $OUTPUT->body_attributes($extraclasses);
 $blockshtml = $OUTPUT->blocks('side-pre');
 $hasblocks = strpos($blockshtml, 'data-block=') !== false;
 $regionmainsettingsmenu = $OUTPUT->region_main_settings_menu();
-$logo = theme_eguru_get_logo_url();
+$logo = theme_eva_um_get_logo_url();
 $surl = new moodle_url('/course/search.php');
 
 $custom = $OUTPUT->custom_menu();
@@ -54,4 +54,4 @@ $templatecontext = [
     "customclass" => $class
     ];
 
-$headerlayout = $OUTPUT->render_from_template('theme_eguru/header', $templatecontext);
+$headerlayout = $OUTPUT->render_from_template('theme_eva_um/header', $templatecontext);

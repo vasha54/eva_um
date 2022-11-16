@@ -17,12 +17,12 @@
 /**
  * Theme Config details
  *
- * @package    theme_eguru
+ * @package    theme_eva_um
  * @copyright  2015 LmsaceDev Team , lmsace.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
  */
-namespace theme_eguru\privacy;
+namespace theme_eva_um\privacy;
 
 /**
  * Privacy provider.

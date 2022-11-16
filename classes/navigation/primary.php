@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace theme_eguru\navigation;
+namespace theme_eva_um\navigation;
 
 use renderable;
 use renderer_base;
@@ -27,7 +27,7 @@ use custom_menu;
  * This file combines primary nav, custom menu, lang menu and
  * usermenu into a standardized format for the frontend
  *
- * @package     theme_eguru
+ * @package     theme_eva_um
  * @category    navigation
  * @copyright   2015 onwards Lmsace Team
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later

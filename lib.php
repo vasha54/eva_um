@@ -20,7 +20,7 @@
  * This is built using the boost template to allow for new theme's using
  * Moodle's new Boost theme engine
  *
- * @package     theme_eguru
+ * @package     theme_eva_um
  * @copyright   2015 LMSACE Dev Team, lmsace.com
  * @author      LMSACE Dev Team
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -32,9 +32,9 @@
  * @param moodle_page $page
  * @return null
  */
-function theme_eguru_page_init(moodle_page $page) {
+function theme_eva_um_page_init(moodle_page $page) {
     $page->requires->jquery();
-    $page->requires->js('/theme/eguru/javascript/theme.js');
+    $page->requires->js('/theme/eva_um/javascript/theme.js');
 }
 
 /**
@@ -45,7 +45,7 @@ function theme_eguru_page_init(moodle_page $page) {
  * @param string $theme
  * @return string $css
  */
-function theme_eguru_process_css($css, $theme) {
+function theme_eva_um_process_css($css, $theme) {
     // Set the background image for the logo.
     $logo = $theme->setting_file_url('logo', 'logo');
 
@@ -55,9 +55,9 @@ function theme_eguru_process_css($css, $theme) {
     } else {
         $customcss = null;
     }
-    $css = theme_eguru_set_fontwww($css);
-    $css = theme_eguru_get_pattern_color($css, $theme);
-    $css = theme_eguru_set_customcss($css, $customcss);
+    $css = theme_eva_um_set_fontwww($css);
+    $css = theme_eva_um_get_pattern_color($css, $theme);
+    $css = theme_eva_um_set_customcss($css, $customcss);
 
     return $css;
 }
@@ -74,11 +74,11 @@ function theme_eguru_process_css($css, $theme) {
  * @param array $options
  * @return bool
  */
-function theme_eguru_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = array()) {
+function theme_eva_um_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = array()) {
     static $theme;
 
     if (empty($theme)) {
-        $theme = theme_config::load('eguru');
+        $theme = theme_config::load('eva_um');
     }
     if ($context->contextlevel == CONTEXT_SYSTEM) {
         if ($filearea === 'logo') {
@@ -86,7 +86,7 @@ function theme_eguru_pluginfile($course, $cm, $context, $filearea, $args, $force
         } else if ($filearea === 'footerlogo') {
             return $theme->setting_file_serve('footerlogo', $args, $forcedownload, $options);
         } else if ($filearea === 'style') {
-            theme_eguru_serve_css($args[1]);
+            theme_eva_um_serve_css($args[1]);
         } else if ($filearea === 'pagebackground') {
             return $theme->setting_file_serve('pagebackground', $args, $forcedownload, $options);
         } else if (preg_match("/slide[1-9][0-9]*image/", $filearea) !== false) {
@@ -105,12 +105,12 @@ function theme_eguru_pluginfile($course, $cm, $context, $filearea, $args, $force
  * @param string $filename
  * @return string
  */
-function theme_eguru_serve_css($filename) {
+function theme_eva_um_serve_css($filename) {
     global $CFG;
     if (!empty($CFG->themedir)) {
-        $thestylepath = $CFG->themedir . '/eguru/style/';
+        $thestylepath = $CFG->themedir . '/eva_um/style/';
     } else {
-        $thestylepath = $CFG->dirroot . '/theme/eguru/style/';
+        $thestylepath = $CFG->dirroot . '/theme/eva_um/style/';
     }
     $thesheet = $thestylepath . $filename;
 
@@ -126,9 +126,9 @@ function theme_eguru_serve_css($filename) {
     $etagheader = (isset($_SERVER['HTTP_IF_NONE_MATCH']) ? trim($_SERVER['HTTP_IF_NONE_MATCH']) : false);
 
     if ((($ifmodifiedsince) && (strtotime($ifmodifiedsince) == $lastmodified)) || $etagheader == $etagfile) {
-        theme_eguru_send_unmodified($lastmodified, $etagfile);
+        theme_eva_um_send_unmodified($lastmodified, $etagfile);
     }
-    theme_eguru_send_cached_css($thestylepath, $filename, $lastmodified, $etagfile);
+    theme_eva_um_send_cached_css($thestylepath, $filename, $lastmodified, $etagfile);
 }
 
 /**
@@ -137,7 +137,7 @@ function theme_eguru_serve_css($filename) {
  * @param string $etag
  *
  */
-function theme_eguru_send_unmodified($lastmodified, $etag) {
+function theme_eva_um_send_unmodified($lastmodified, $etag) {
     $lifetime = 60 * 60 * 24 * 60;
     header('HTTP/1.1 304 Not Modified');
     header('Expires: ' . gmdate('D, d M Y H:i:s', time() + $lifetime) . ' GMT');
@@ -157,7 +157,7 @@ function theme_eguru_send_unmodified($lastmodified, $etag) {
  * @param integer $lastmodified
  * @param string $etag
  */
-function theme_eguru_send_cached_css($path, $filename, $lastmodified, $etag) {
+function theme_eva_um_send_cached_css($path, $filename, $lastmodified, $etag) {
     global $CFG;
     require_once($CFG->dirroot . '/lib/configonlylib.php');
     // For min_enable_zlib_compression.
@@ -187,7 +187,7 @@ function theme_eguru_send_cached_css($path, $filename, $lastmodified, $etag) {
  * @param string $customcss The custom CSS to add.
  * @return string The CSS which now contains our custom CSS.
  */
-function theme_eguru_set_customcss($css, $customcss) {
+function theme_eva_um_set_customcss($css, $customcss) {
     $tag = '[[setting:customcss]]';
     $replacement = $customcss;
     if (is_null($replacement)) {
@@ -211,7 +211,7 @@ function theme_eguru_set_customcss($css, $customcss) {
  *      - heading HTML to use for the heading. A logo if one is selected or the default heading.
  *      - footnote HTML to use as a footnote. By default ''.
  */
-function theme_eguru_get_html_for_settings(renderer_base $output, moodle_page $page) {
+function theme_eva_um_get_html_for_settings(renderer_base $output, moodle_page $page) {
     global $CFG;
     $return = new stdClass;
 
@@ -239,7 +239,7 @@ function theme_eguru_get_html_for_settings(renderer_base $output, moodle_page $p
  * @param string $css
  * @return string $fontwww
  */
-function theme_eguru_set_fontwww($css) {
+function theme_eva_um_set_fontwww($css) {
     global $CFG, $PAGE;
     if (empty($CFG->themewww)) {
         $themewww = $CFG->wwwroot."/theme";
@@ -248,8 +248,8 @@ function theme_eguru_set_fontwww($css) {
     }
 
     $tag = '[[setting:fontwww]]';
-    $theme = theme_config::load('eguru');
-    $css = str_replace($tag, $themewww.'/eguru/fonts/', $css);
+    $theme = theme_config::load('eva_um');
+    $css = str_replace($tag, $themewww.'/eva_um/fonts/', $css);
     return $css;
 }
 
@@ -260,11 +260,11 @@ function theme_eguru_set_fontwww($css) {
  * @param string $type
  * @return image $logo
  */
-function theme_eguru_get_logo_url($type='header') {
+function theme_eva_um_get_logo_url($type='header') {
     global $OUTPUT;
     static $theme;
     if (empty($theme)) {
-        $theme = theme_config::load('eguru');
+        $theme = theme_config::load('eva_um');
     }
 
     if ($type == "header") {
@@ -283,13 +283,13 @@ function theme_eguru_get_logo_url($type='header') {
  * @param string $sliname
  * @return null
  */
-function theme_eguru_render_slideimg($p, $sliname) {
+function theme_eva_um_render_slideimg($p, $sliname) {
     global $PAGE, $OUTPUT;
 
-    $nos = theme_eguru_get_setting('numberofslides');
+    $nos = theme_eva_um_get_setting('numberofslides');
     $i = $p % 3;
     // Get slide image or fallback to default.
-    if (theme_eguru_get_setting($sliname)) {
+    if (theme_eva_um_get_setting($sliname)) {
         $slideimage = $PAGE->theme->setting_file_url($sliname , $sliname);
     }
     if (empty($slideimage)) {
@@ -306,12 +306,12 @@ function theme_eguru_render_slideimg($p, $sliname) {
  * @param bool $format
  * @return bool
  */
-function theme_eguru_get_setting($setting, $format = true) {
+function theme_eva_um_get_setting($setting, $format = true) {
     global $CFG;
     require_once($CFG->dirroot . '/lib/weblib.php');
     static $theme;
     if (empty($theme)) {
-        $theme = theme_config::load('eguru');
+        $theme = theme_config::load('eva_um');
     }
     if (empty($theme->settings->$setting)) {
         return false;
@@ -331,7 +331,7 @@ function theme_eguru_get_setting($setting, $format = true) {
  *
  * @return string
  */
-function theme_eguru_theme_url() {
+function theme_eva_um_theme_url() {
     global $CFG, $PAGE;
     $themeurl = $CFG->wwwroot.'/theme/'. $PAGE->theme->name;
     return $themeurl;
@@ -342,17 +342,17 @@ function theme_eguru_theme_url() {
  * @param string $menuname Footer block link name.
  * @return string The Footer links are return.
  */
-function theme_eguru_generate_links($menuname = '') {
+function theme_eva_um_generate_links($menuname = '') {
     global $CFG, $PAGE;
     $htmlstr = '';
-    $menustr = theme_eguru_get_setting($menuname);
+    $menustr = theme_eva_um_get_setting($menuname);
     $menusettings = explode("\n", $menustr);
     foreach ($menusettings as $menukey => $menuval) {
         $expset = explode("|", $menuval);
         if (!empty($expset) && isset($expset[0]) && isset($expset[1])) {
             list($ltxt, $lurl) = $expset;
             $ltxt = trim($ltxt);
-            $ltxt = theme_eguru_lang($ltxt);
+            $ltxt = theme_eva_um_lang($ltxt);
             $lurl = trim($lurl);
             if (empty($ltxt)) {
                 continue;
@@ -376,7 +376,7 @@ function theme_eguru_generate_links($menuname = '') {
  *
  * @return array
  */
-function theme_eguru_hidden_courses_ids() {
+function theme_eva_um_hidden_courses_ids() {
     global $DB;
     $hcourseids = array();
     $result = $DB->get_records_sql("SELECT id FROM {course} WHERE visible='0' ");
@@ -395,7 +395,7 @@ function theme_eguru_hidden_courses_ids() {
  * @param string $text
  * @return string
  */
-function theme_eguru_strip_html_tags( $text ) {
+function theme_eva_um_strip_html_tags( $text ) {
     $text = preg_replace(
         array(
             // Remove invisible content.
@@ -435,7 +435,7 @@ function theme_eguru_strip_html_tags( $text ) {
  * @param string $endchar
  * @return string $out
  */
-function theme_eguru_course_trim_char($str, $n = 500, $endchar = '&#8230;') {
+function theme_eva_um_course_trim_char($str, $n = 500, $endchar = '&#8230;') {
     if (strlen($str) < $n) {
         return $str;
     }
@@ -456,12 +456,12 @@ function theme_eguru_course_trim_char($str, $n = 500, $endchar = '&#8230;') {
  * @param string $key
  * @return string
  */
-function theme_eguru_lang($key = '') {
+function theme_eva_um_lang($key = '') {
     $pos = strpos($key, 'lang:');
     if ($pos !== false) {
         list($l, $k) = explode(":", $key);
-        if (get_string_manager()->string_exists($k, 'theme_eguru')) {
-            $v = get_string($k, 'theme_eguru');
+        if (get_string_manager()->string_exists($k, 'theme_eva_um')) {
+            $v = get_string($k, 'theme_eva_um');
             return $v;
         } else {
             return $key;
@@ -477,42 +477,27 @@ function theme_eguru_lang($key = '') {
  * @param string $type
  * @return string
  */
-function theme_eguru_get_pattern_color( $css, $type='') {
+function theme_eva_um_get_pattern_color( $css, $type='') {
     global $OUTPUT , $CFG;
 
     $rtl  = (right_to_left()) ? '_rtl' : '';
 
     $patterncolors = array (
-        'default' => array (
-            'color_primary' => '#8e558e',
-            'color_secondary' => '#a55ba5',
-            'color_blackcurrant_approx' => '#382738',
-            'color_plum_approx' => '#764076',
-            'color_blackcurrant_90_approx' => 'rgba(56, 39, 56, 0.9)',
-            'color_french_lilac_approx' => '#ead1ea',
-            'color_snuff_approx' => '#edd3ed',
-            'color_tutu_approx' => '#fef',
-            'color_blackcurrant_25_approx' => 'rgba(56, 39, 56, .25)',
-            'collapsed_empty' => $CFG->wwwroot.'/theme/eguru/pix/default/t/collapsed_empty',
-            'collapsed' => $CFG->wwwroot.'/theme/eguru/pix/default/t/collapsed',
-            'collapsed_rtl' => $CFG->wwwroot.'/theme/eguru/pix/default/t/collapsed_rtl',
-            'expanded' => $CFG->wwwroot.'/theme/eguru/pix/default/t/expanded'
-        ),
-
+       
         '1' => array (
-            'color_primary' => '#426e17',
-            'color_secondary' => '#7abb3b',
-            'color_blackcurrant_approx' => '#2f510f',
-            'color_plum_approx' => '#528125',
-            'color_blackcurrant_90_approx' => 'rgba(47, 81, 15, .9)',
-            'color_french_lilac_approx' => '#cedec0',
-            'color_snuff_approx' => '#bad3a3',
-            'color_tutu_approx' => '#f2fde8',
-            'color_blackcurrant_25_approx' => 'rgba(47, 81, 15, .25)',
-            'collapsed_empty' => $CFG->wwwroot.'/theme/eguru/pix/cs01/t/collapsed_empty.png',
-            'collapsed' => $CFG->wwwroot.'/theme/eguru/pix/cs01/t/collapsed.png',
-            'collapsed_rtl' => $CFG->wwwroot.'/theme/eguru/pix/cs01/t/collapsed_rtl.png',
-            'expanded' => $CFG->wwwroot.'/theme/eguru/pix/cs01/t/expanded.png'
+            'color_primary' => 'rgb(0,47,87)',//#426e17 rgb(66,110,23)
+            'color_secondary' => '#004B8A',//#7abb3b rgb(122,187,59)
+            'color_blackcurrant_approx' => '#2f510f',//#2f510f rgb(x,y,z)
+            'color_plum_approx' => '#528125',//#528125 rgb(x,y,z)
+            'color_blackcurrant_90_approx' => 'rgba(47, 81, 15, .9)',//rgba(47, 81, 15, .9)
+            'color_french_lilac_approx' => '#cedec0',//#cedec0 rgb(x,y,z)
+            'color_snuff_approx' => '#bad3a3',//#bad3a3 rgb(x,y,z)
+            'color_tutu_approx' => '#f2fde8',//#f2fde8 rgb(x,y,z)
+            'color_blackcurrant_25_approx' => 'rgba(47, 81, 15, .25)',//rgba(47, 81, 15, .25)
+            'collapsed_empty' => $CFG->wwwroot.'/theme/eva_um/pix/cs01/t/collapsed_empty.png',
+            'collapsed' => $CFG->wwwroot.'/theme/eva_um/pix/cs01/t/collapsed.png',
+            'collapsed_rtl' => $CFG->wwwroot.'/theme/eva_um/pix/cs01/t/collapsed_rtl.png',
+            'expanded' => $CFG->wwwroot.'/theme/eva_um/pix/cs01/t/expanded.png'
         ),
         '2' => array (
             'color_primary' => '#2b4e84',
@@ -524,10 +509,10 @@ function theme_eguru_get_pattern_color( $css, $type='') {
             'color_snuff_approx' => '#c0ccdc',
             'color_tutu_approx' => '#e8f0fb',
             'color_blackcurrant_25_approx' => 'rgba(24, 48, 84, .25)',
-            'collapsed_empty' => $CFG->wwwroot.'/theme/eguru/pix/cs02/t/collapsed_empty.png',
-            'collapsed' => $CFG->wwwroot.'/theme/eguru/pix/cs02/t/collapsed.png',
-            'collapsed_rtl' => $CFG->wwwroot.'/theme/eguru/pix/cs02/t/collapsed_rtl.png',
-            'expanded' => $CFG->wwwroot.'/theme/eguru/pix/cs02/t/expanded.png'
+            'collapsed_empty' => $CFG->wwwroot.'/theme/eva_um/pix/cs02/t/collapsed_empty.png',
+            'collapsed' => $CFG->wwwroot.'/theme/eva_um/pix/cs02/t/collapsed.png',
+            'collapsed_rtl' => $CFG->wwwroot.'/theme/eva_um/pix/cs02/t/collapsed_rtl.png',
+            'expanded' => $CFG->wwwroot.'/theme/eva_um/pix/cs02/t/expanded.png'
         ),
 
         '3' => array (
@@ -540,13 +525,13 @@ function theme_eguru_get_pattern_color( $css, $type='') {
             'color_snuff_approx' => '#f7e3e1',
             'color_tutu_approx' => '#fff1ef',
             'color_blackcurrant_25_approx' => 'rgba(90, 30, 21, .25)',
-            'collapsed_empty' => $CFG->wwwroot.'/theme/eguru/pix/cs03/t/collapsed_empty.png',
-            'collapsed' => $CFG->wwwroot.'/theme/eguru/pix/cs03/t/collapsed.png',
-            'collapsed_rtl' => $CFG->wwwroot.'/theme/eguru/pix/cs03/t/collapsed_rtl.png',
-            'expanded' => $CFG->wwwroot.'/theme/eguru/pix/cs03/t/expanded.png'
+            'collapsed_empty' => $CFG->wwwroot.'/theme/eva_um/pix/cs03/t/collapsed_empty.png',
+            'collapsed' => $CFG->wwwroot.'/theme/eva_um/pix/cs03/t/collapsed.png',
+            'collapsed_rtl' => $CFG->wwwroot.'/theme/eva_um/pix/cs03/t/collapsed_rtl.png',
+            'expanded' => $CFG->wwwroot.'/theme/eva_um/pix/cs03/t/expanded.png'
         ),
 
-        '4' => array (
+        '5' => array (
             'color_primary' => '#20897b',
             'color_secondary' => '#4ba89c',
             'color_blackcurrant_approx' => '#103430',
@@ -556,14 +541,302 @@ function theme_eguru_get_pattern_color( $css, $type='') {
             'color_snuff_approx' => '#c0dcdb',
             'color_tutu_approx' => '#e4f7f6',
             'color_blackcurrant_25_approx' => 'rgba(16, 52, 48, .25)',
-            'collapsed_empty' => $CFG->wwwroot.'/theme/eguru/pix/cs04/t/collapsed_empty.png',
-            'collapsed' => $CFG->wwwroot.'/theme/eguru/pix/cs04/t/collapsed.png',
-            'collapsed_rtl' => $CFG->wwwroot.'/theme/eguru/pix/cs04/t/collapsed_rtl.png',
-            'expanded' => $CFG->wwwroot.'/theme/eguru/pix/cs04/t/expanded.png'
-        )
+            'collapsed_empty' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed_empty.png',
+            'collapsed' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed.png',
+            'collapsed_rtl' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed_rtl.png',
+            'expanded' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/expanded.png'
+        ),
+
+        '6' => array (
+            'color_primary' => '#20897b',
+            'color_secondary' => '#4ba89c',
+            'color_blackcurrant_approx' => '#103430',
+            'color_plum_approx' => '#17786b',
+            'color_blackcurrant_90_approx' => 'rgba(16, 52, 48, .9)',
+            'color_french_lilac_approx' => '#c2e8e5',
+            'color_snuff_approx' => '#c0dcdb',
+            'color_tutu_approx' => '#e4f7f6',
+            'color_blackcurrant_25_approx' => 'rgba(16, 52, 48, .25)',
+            'collapsed_empty' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed_empty.png',
+            'collapsed' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed.png',
+            'collapsed_rtl' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed_rtl.png',
+            'expanded' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/expanded.png'
+        ),
+
+        '7' => array (
+            'color_primary' => '#20897b',
+            'color_secondary' => '#4ba89c',
+            'color_blackcurrant_approx' => '#103430',
+            'color_plum_approx' => '#17786b',
+            'color_blackcurrant_90_approx' => 'rgba(16, 52, 48, .9)',
+            'color_french_lilac_approx' => '#c2e8e5',
+            'color_snuff_approx' => '#c0dcdb',
+            'color_tutu_approx' => '#e4f7f6',
+            'color_blackcurrant_25_approx' => 'rgba(16, 52, 48, .25)',
+            'collapsed_empty' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed_empty.png',
+            'collapsed' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed.png',
+            'collapsed_rtl' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed_rtl.png',
+            'expanded' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/expanded.png'
+        ),
+
+        '8' => array (
+            'color_primary' => '#20897b',
+            'color_secondary' => '#4ba89c',
+            'color_blackcurrant_approx' => '#103430',
+            'color_plum_approx' => '#17786b',
+            'color_blackcurrant_90_approx' => 'rgba(16, 52, 48, .9)',
+            'color_french_lilac_approx' => '#c2e8e5',
+            'color_snuff_approx' => '#c0dcdb',
+            'color_tutu_approx' => '#e4f7f6',
+            'color_blackcurrant_25_approx' => 'rgba(16, 52, 48, .25)',
+            'collapsed_empty' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed_empty.png',
+            'collapsed' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed.png',
+            'collapsed_rtl' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed_rtl.png',
+            'expanded' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/expanded.png'
+        ),
+
+        '9' => array (
+            'color_primary' => '#20897b',
+            'color_secondary' => '#4ba89c',
+            'color_blackcurrant_approx' => '#103430',
+            'color_plum_approx' => '#17786b',
+            'color_blackcurrant_90_approx' => 'rgba(16, 52, 48, .9)',
+            'color_french_lilac_approx' => '#c2e8e5',
+            'color_snuff_approx' => '#c0dcdb',
+            'color_tutu_approx' => '#e4f7f6',
+            'color_blackcurrant_25_approx' => 'rgba(16, 52, 48, .25)',
+            'collapsed_empty' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed_empty.png',
+            'collapsed' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed.png',
+            'collapsed_rtl' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed_rtl.png',
+            'expanded' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/expanded.png'
+        ),
+
+        '10' => array (
+            'color_primary' => '#20897b',
+            'color_secondary' => '#4ba89c',
+            'color_blackcurrant_approx' => '#103430',
+            'color_plum_approx' => '#17786b',
+            'color_blackcurrant_90_approx' => 'rgba(16, 52, 48, .9)',
+            'color_french_lilac_approx' => '#c2e8e5',
+            'color_snuff_approx' => '#c0dcdb',
+            'color_tutu_approx' => '#e4f7f6',
+            'color_blackcurrant_25_approx' => 'rgba(16, 52, 48, .25)',
+            'collapsed_empty' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed_empty.png',
+            'collapsed' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed.png',
+            'collapsed_rtl' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed_rtl.png',
+            'expanded' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/expanded.png'
+        ),
+
+        '11' => array (
+            'color_primary' => '#20897b',
+            'color_secondary' => '#4ba89c',
+            'color_blackcurrant_approx' => '#103430',
+            'color_plum_approx' => '#17786b',
+            'color_blackcurrant_90_approx' => 'rgba(16, 52, 48, .9)',
+            'color_french_lilac_approx' => '#c2e8e5',
+            'color_snuff_approx' => '#c0dcdb',
+            'color_tutu_approx' => '#e4f7f6',
+            'color_blackcurrant_25_approx' => 'rgba(16, 52, 48, .25)',
+            'collapsed_empty' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed_empty.png',
+            'collapsed' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed.png',
+            'collapsed_rtl' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed_rtl.png',
+            'expanded' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/expanded.png'
+        ),
+
+        '12' => array (
+            'color_primary' => '#20897b',
+            'color_secondary' => '#4ba89c',
+            'color_blackcurrant_approx' => '#103430',
+            'color_plum_approx' => '#17786b',
+            'color_blackcurrant_90_approx' => 'rgba(16, 52, 48, .9)',
+            'color_french_lilac_approx' => '#c2e8e5',
+            'color_snuff_approx' => '#c0dcdb',
+            'color_tutu_approx' => '#e4f7f6',
+            'color_blackcurrant_25_approx' => 'rgba(16, 52, 48, .25)',
+            'collapsed_empty' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed_empty.png',
+            'collapsed' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed.png',
+            'collapsed_rtl' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed_rtl.png',
+            'expanded' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/expanded.png'
+        ),
+
+        '12' => array (
+            'color_primary' => '#20897b',
+            'color_secondary' => '#4ba89c',
+            'color_blackcurrant_approx' => '#103430',
+            'color_plum_approx' => '#17786b',
+            'color_blackcurrant_90_approx' => 'rgba(16, 52, 48, .9)',
+            'color_french_lilac_approx' => '#c2e8e5',
+            'color_snuff_approx' => '#c0dcdb',
+            'color_tutu_approx' => '#e4f7f6',
+            'color_blackcurrant_25_approx' => 'rgba(16, 52, 48, .25)',
+            'collapsed_empty' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed_empty.png',
+            'collapsed' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed.png',
+            'collapsed_rtl' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed_rtl.png',
+            'expanded' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/expanded.png'
+        ),
+
+        '13' => array (
+            'color_primary' => '#20897b',
+            'color_secondary' => '#4ba89c',
+            'color_blackcurrant_approx' => '#103430',
+            'color_plum_approx' => '#17786b',
+            'color_blackcurrant_90_approx' => 'rgba(16, 52, 48, .9)',
+            'color_french_lilac_approx' => '#c2e8e5',
+            'color_snuff_approx' => '#c0dcdb',
+            'color_tutu_approx' => '#e4f7f6',
+            'color_blackcurrant_25_approx' => 'rgba(16, 52, 48, .25)',
+            'collapsed_empty' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed_empty.png',
+            'collapsed' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed.png',
+            'collapsed_rtl' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed_rtl.png',
+            'expanded' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/expanded.png'
+        ),
+
+        '14' => array (
+            'color_primary' => '#20897b',
+            'color_secondary' => '#4ba89c',
+            'color_blackcurrant_approx' => '#103430',
+            'color_plum_approx' => '#17786b',
+            'color_blackcurrant_90_approx' => 'rgba(16, 52, 48, .9)',
+            'color_french_lilac_approx' => '#c2e8e5',
+            'color_snuff_approx' => '#c0dcdb',
+            'color_tutu_approx' => '#e4f7f6',
+            'color_blackcurrant_25_approx' => 'rgba(16, 52, 48, .25)',
+            'collapsed_empty' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed_empty.png',
+            'collapsed' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed.png',
+            'collapsed_rtl' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed_rtl.png',
+            'expanded' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/expanded.png'
+        ),
+
+        '15' => array (
+            'color_primary' => '#20897b',
+            'color_secondary' => '#4ba89c',
+            'color_blackcurrant_approx' => '#103430',
+            'color_plum_approx' => '#17786b',
+            'color_blackcurrant_90_approx' => 'rgba(16, 52, 48, .9)',
+            'color_french_lilac_approx' => '#c2e8e5',
+            'color_snuff_approx' => '#c0dcdb',
+            'color_tutu_approx' => '#e4f7f6',
+            'color_blackcurrant_25_approx' => 'rgba(16, 52, 48, .25)',
+            'collapsed_empty' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed_empty.png',
+            'collapsed' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed.png',
+            'collapsed_rtl' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed_rtl.png',
+            'expanded' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/expanded.png'
+        ),
+
+        '16' => array (
+            'color_primary' => '#20897b',
+            'color_secondary' => '#4ba89c',
+            'color_blackcurrant_approx' => '#103430',
+            'color_plum_approx' => '#17786b',
+            'color_blackcurrant_90_approx' => 'rgba(16, 52, 48, .9)',
+            'color_french_lilac_approx' => '#c2e8e5',
+            'color_snuff_approx' => '#c0dcdb',
+            'color_tutu_approx' => '#e4f7f6',
+            'color_blackcurrant_25_approx' => 'rgba(16, 52, 48, .25)',
+            'collapsed_empty' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed_empty.png',
+            'collapsed' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed.png',
+            'collapsed_rtl' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed_rtl.png',
+            'expanded' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/expanded.png'
+        ),
+
+        '17' => array (
+            'color_primary' => '#20897b',
+            'color_secondary' => '#4ba89c',
+            'color_blackcurrant_approx' => '#103430',
+            'color_plum_approx' => '#17786b',
+            'color_blackcurrant_90_approx' => 'rgba(16, 52, 48, .9)',
+            'color_french_lilac_approx' => '#c2e8e5',
+            'color_snuff_approx' => '#c0dcdb',
+            'color_tutu_approx' => '#e4f7f6',
+            'color_blackcurrant_25_approx' => 'rgba(16, 52, 48, .25)',
+            'collapsed_empty' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed_empty.png',
+            'collapsed' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed.png',
+            'collapsed_rtl' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed_rtl.png',
+            'expanded' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/expanded.png'
+        ),
+
+        '18' => array (
+            'color_primary' => '#20897b',
+            'color_secondary' => '#4ba89c',
+            'color_blackcurrant_approx' => '#103430',
+            'color_plum_approx' => '#17786b',
+            'color_blackcurrant_90_approx' => 'rgba(16, 52, 48, .9)',
+            'color_french_lilac_approx' => '#c2e8e5',
+            'color_snuff_approx' => '#c0dcdb',
+            'color_tutu_approx' => '#e4f7f6',
+            'color_blackcurrant_25_approx' => 'rgba(16, 52, 48, .25)',
+            'collapsed_empty' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed_empty.png',
+            'collapsed' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed.png',
+            'collapsed_rtl' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed_rtl.png',
+            'expanded' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/expanded.png'
+        ),
+
+        '19' => array (
+            'color_primary' => '#20897b',
+            'color_secondary' => '#4ba89c',
+            'color_blackcurrant_approx' => '#103430',
+            'color_plum_approx' => '#17786b',
+            'color_blackcurrant_90_approx' => 'rgba(16, 52, 48, .9)',
+            'color_french_lilac_approx' => '#c2e8e5',
+            'color_snuff_approx' => '#c0dcdb',
+            'color_tutu_approx' => '#e4f7f6',
+            'color_blackcurrant_25_approx' => 'rgba(16, 52, 48, .25)',
+            'collapsed_empty' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed_empty.png',
+            'collapsed' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed.png',
+            'collapsed_rtl' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed_rtl.png',
+            'expanded' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/expanded.png'
+        ),
+
+        '20' => array (
+            'color_primary' => '#20897b',
+            'color_secondary' => '#4ba89c',
+            'color_blackcurrant_approx' => '#103430',
+            'color_plum_approx' => '#17786b',
+            'color_blackcurrant_90_approx' => 'rgba(16, 52, 48, .9)',
+            'color_french_lilac_approx' => '#c2e8e5',
+            'color_snuff_approx' => '#c0dcdb',
+            'color_tutu_approx' => '#e4f7f6',
+            'color_blackcurrant_25_approx' => 'rgba(16, 52, 48, .25)',
+            'collapsed_empty' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed_empty.png',
+            'collapsed' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed.png',
+            'collapsed_rtl' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed_rtl.png',
+            'expanded' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/expanded.png'
+        ),
+
+        '21' => array (
+            'color_primary' => '#20897b',
+            'color_secondary' => '#4ba89c',
+            'color_blackcurrant_approx' => '#103430',
+            'color_plum_approx' => '#17786b',
+            'color_blackcurrant_90_approx' => 'rgba(16, 52, 48, .9)',
+            'color_french_lilac_approx' => '#c2e8e5',
+            'color_snuff_approx' => '#c0dcdb',
+            'color_tutu_approx' => '#e4f7f6',
+            'color_blackcurrant_25_approx' => 'rgba(16, 52, 48, .25)',
+            'collapsed_empty' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed_empty.png',
+            'collapsed' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed.png',
+            'collapsed_rtl' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed_rtl.png',
+            'expanded' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/expanded.png'
+        ),
+
+        '22' => array (
+            'color_primary' => '#20897b',
+            'color_secondary' => '#4ba89c',
+            'color_blackcurrant_approx' => '#103430',
+            'color_plum_approx' => '#17786b',
+            'color_blackcurrant_90_approx' => 'rgba(16, 52, 48, .9)',
+            'color_french_lilac_approx' => '#c2e8e5',
+            'color_snuff_approx' => '#c0dcdb',
+            'color_tutu_approx' => '#e4f7f6',
+            'color_blackcurrant_25_approx' => 'rgba(16, 52, 48, .25)',
+            'collapsed_empty' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed_empty.png',
+            'collapsed' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed.png',
+            'collapsed_rtl' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/collapsed_rtl.png',
+            'expanded' => $CFG->wwwroot.'/theme/eva_um/pix/cs04/t/expanded.png'
+        ),
     );
 
-    $selectedpattern = theme_eguru_get_setting('patternselect');
+    $selectedpattern = theme_eva_um_get_setting('patternselect');
     foreach ($patterncolors[$selectedpattern] as $key => $value) {
         $tag = '[['.$key.']]';
         $replacement = $value;
@@ -580,7 +853,7 @@ function theme_eguru_get_pattern_color( $css, $type='') {
  * @param int $opacity
  * @return string
  */
-function theme_eguru_get_hexa($hexa, $opacity) {
+function theme_eva_um_get_hexa($hexa, $opacity) {
     if (!empty($hexa)) {
         list($r, $g, $b) = sscanf($hexa, "#%02x%02x%02x");
         if ($opacity == '') {

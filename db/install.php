@@ -16,18 +16,18 @@
 
 /**
  * Theme Installation.
- * @package    theme_eguru
+ * @package    theme_eva_um
  * @copyright  2015 onwards LMSACE Dev Team (http://www.lmsace.com)
  * @author    LMSACE Dev Team
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 /**
- * Theme_eguru install function.
+ * Theme_eva_um install function.
  *
  * @return void
  */
-function xmldb_theme_eguru_install() {
+function xmldb_theme_eva_um_install() {
     global $CFG;
 
     if (method_exists('core_plugin_manager', 'reset_caches')) {
@@ -41,12 +41,12 @@ function xmldb_theme_eguru_install() {
         $i = 1;
         $fs = get_file_storage();
         $filerecord = new stdClass();
-        $filerecord->component = 'theme_eguru';
+        $filerecord->component = 'theme_eva_um';
         $filerecord->contextid = context_system::instance()->id;
         $filerecord->userid = get_admin()->id;
         $filerecord->filearea = 'slide1image';
         $filerecord->filepath = '/';
         $filerecord->itemid = 0;
         $filerecord->filename = 'slide1image.jpg';
-        $fs->create_file_from_pathname($filerecord, $CFG->dirroot . '/theme/eguru/pix/home/slide1.jpg');
+        $fs->create_file_from_pathname($filerecord, $CFG->dirroot . '/theme/eva_um/pix/home/slide1.jpg');
 }

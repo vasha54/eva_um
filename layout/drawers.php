@@ -17,7 +17,7 @@
 /**
  * A drawer based layout for the boost theme.
  *
- * @package   theme_eguru
+ * @package   theme_eva_um
  * @copyright 2015 onwards lmsace
  * @author    LMSACE Dev Team
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -83,7 +83,7 @@ if ($PAGE->has_secondary_navigation()) {
 }
 
 
-$primary = new \theme_eguru\navigation\primary($PAGE);
+$primary = new \theme_eva_um\navigation\primary($PAGE);
 $renderer = $PAGE->get_renderer('core');
 $primarymenu = $primary->export_for_template($renderer);
 
@@ -111,4 +111,4 @@ $templatecontext += [
     'headercontent' => $headercontent,
     'addblockbutton' => $addblockbutton
 ];
-echo $OUTPUT->render_from_template('theme_eguru/drawers', $templatecontext);
+echo $OUTPUT->render_from_template('theme_eva_um/drawers', $templatecontext);

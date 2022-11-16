@@ -20,13 +20,13 @@
  * This is built using the boost template to allow for new theme's using
  * Moodle's new Boost theme engine
  *
- * @package     theme_eguru
+ * @package     theme_eva_um
  * @copyright   2015 LMSACE Dev Team, lmsace.com
  * @author      LMSACE Dev Team
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace theme_eguru\output;
+namespace theme_eva_um\output;
 
 use moodle_url;
 use lang_string;
@@ -78,7 +78,7 @@ class core_renderer extends \theme_boost\output\core_renderer {
 
                 $course = get_course($courseid);
 
-                $no = get_config('theme_eguru', 'patternselect');
+                $no = get_config('theme_eva_um', 'patternselect');
                 $nimgp = (empty($no)||$no == "default") ? 'default/no-image' : 'cs0'.$no.'/no-image';
                 $noimgurl = $this->output->image_url($nimgp, 'theme');
                 $courseurl = new moodle_url('/course/view.php', array('id' => $courseid ));
@@ -130,20 +130,20 @@ class core_renderer extends \theme_boost\output\core_renderer {
     public function promoted_courses() {
         global $CFG , $DB;
 
-        $pcourseenable = theme_eguru_get_setting('pcourseenable');
+        $pcourseenable = theme_eva_um_get_setting('pcourseenable');
         if (!$pcourseenable) {
             return false;
         }
 
         $featuredcontent = '';
         /* Get Featured courses id from DB */
-        $featuredids = theme_eguru_get_setting('promotedcourses');
+        $featuredids = theme_eva_um_get_setting('promotedcourses');
         $rcourseids = (!empty($featuredids)) ? explode(",", $featuredids) : array();
         if (empty($rcourseids)) {
             return false;
         }
 
-        $hcourseids = theme_eguru_hidden_courses_ids();
+        $hcourseids = theme_eva_um_hidden_courses_ids();
 
         if (!empty($hcourseids)) {
             foreach ($rcourseids as $key => $val) {
@@ -166,8 +166,8 @@ class core_renderer extends \theme_boost\output\core_renderer {
         }
         $fcourseids = $rcourseids;
         $totalfcourse = count($fcourseids);
-        $promotedtitle = theme_eguru_get_setting('promotedtitle', 'format_html');
-        $promotedtitle = theme_eguru_lang($promotedtitle);
+        $promotedtitle = theme_eva_um_get_setting('promotedtitle', 'format_html');
+        $promotedtitle = theme_eva_um_lang($promotedtitle);
 
         $featuredheader = '<div class="custom-courses-list" id="Promoted-Courses"><div class="container">
         <div class="titlebar with-felements"><h2>'.$promotedtitle.'</h2><div class="clearfix"></div>
@@ -179,7 +179,7 @@ class core_renderer extends \theme_boost\output\core_renderer {
             $rowcontent = '';
             foreach ($fcourseids as $courseid) {
                 $course = get_course($courseid);
-                $no = get_config('theme_eguru', 'patternselect');
+                $no = get_config('theme_eva_um', 'patternselect');
                 $nimgp = (empty($no)||$no == "default") ? 'default/no-image' : 'cs0'.$no.'/no-image';
 
                 $noimgurl = $this->output->image_url($nimgp, 'theme');
@@ -192,8 +192,8 @@ class core_renderer extends \theme_boost\output\core_renderer {
 
                 $imgurl = '';
 
-                $summary = theme_eguru_strip_html_tags($course->summary);
-                $summary = theme_eguru_course_trim_char($summary, 75);
+                $summary = theme_eva_um_strip_html_tags($course->summary);
+                $summary = theme_eva_um_course_trim_char($summary, 75);
 
                 $context = context_course::instance($course->id);
                 $nostudents = count_role_users(5, $context);

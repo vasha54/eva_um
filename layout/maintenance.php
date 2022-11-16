@@ -17,7 +17,7 @@
 /**
  * The maintenance layout.
  *
- * @package   theme_eguru
+ * @package   theme_eva_um
  * @copyright 2015 LMSACE Dev Team,lmsace.com
  * @author    LMSACE Dev Team
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -25,9 +25,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$copyrightfooter = theme_eguru_get_setting('copyright', 'format_html');
+$copyrightfooter = theme_eva_um_get_setting('copyright', 'format_html');
 
-$logourl = theme_eguru_get_logo_url();
+$logourl = theme_eva_um_get_logo_url();
 $templatecontext = [
     // We cannot pass the context to format_string, this layout can be used during
     // installation. At that stage database tables do not exist yet.
@@ -38,5 +38,5 @@ $templatecontext = [
     'maintenancefooter' => true
 ];
 
-echo $OUTPUT->render_from_template('theme_eguru/maintenance', $templatecontext);
+echo $OUTPUT->render_from_template('theme_eva_um/maintenance', $templatecontext);
 

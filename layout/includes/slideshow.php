@@ -17,7 +17,7 @@
 /**
  * slideshow.php
  *
- * @package     theme_eguru
+ * @package     theme_eva_um
  * @copyright   2015 LMSACE Dev Team,lmsace.com
  * @author      LMSACE Dev Team
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -27,18 +27,18 @@
  * slideshow
  * @return string
  */
-function theme_eguru_frontpage_slideshow() {
+function theme_eva_um_frontpage_slideshow() {
     global $PAGE;
-    $slidetoggle = theme_eguru_get_setting("toggleslideshow");
+    $slidetoggle = theme_eva_um_get_setting("toggleslideshow");
     if (!$slidetoggle) {
         return '';
     }
-    $numberofslides = theme_eguru_get_setting('numberofslides');
+    $numberofslides = theme_eva_um_get_setting('numberofslides');
     $slideimage = '';
     $visableslide = 0;
 
     for ($s1 = 1; $s1 <= $numberofslides; $s1++) {
-        $slideimage .= theme_eguru_render_slideimg($s1, 'slide' . $s1 . 'image');
+        $slideimage .= theme_eva_um_render_slideimg($s1, 'slide' . $s1 . 'image');
     }
 
     if ($slideimage) {
@@ -63,15 +63,15 @@ function theme_eguru_frontpage_slideshow() {
             $content .= html_writer::start_tag('div', array('class' => 'carousel-inner', 'role' => 'listbox'));
 
             for ($s1 = 1; $s1 <= $numberofslides; $s1++):
-                $slidecaption = theme_eguru_get_setting('slide'.$s1.'caption', true);
-                $slidecaption = theme_eguru_lang($slidecaption);
-                $slideimg = theme_eguru_render_slideimg($s1, 'slide' . $s1 . 'image');
+                $slidecaption = theme_eva_um_get_setting('slide'.$s1.'caption', true);
+                $slidecaption = theme_eva_um_lang($slidecaption);
+                $slideimg = theme_eva_um_render_slideimg($s1, 'slide' . $s1 . 'image');
                 if (empty($slideimg)) {
                     $slideimg = '';
                 }
-                $slidebtn = theme_eguru_get_setting('slide'.$s1.'urltext');
-                $slidebtn = theme_eguru_lang($slidebtn);
-                $slidebtnurl = theme_eguru_get_setting('slide' . $s1 . 'url');
+                $slidebtn = theme_eva_um_get_setting('slide'.$s1.'urltext');
+                $slidebtn = theme_eva_um_lang($slidebtn);
+                $slidebtnurl = theme_eva_um_get_setting('slide' . $s1 . 'url');
                 $icon = "fa-angle-right";
                 if (right_to_left()) {
                     $icon = "fa-angle-left";

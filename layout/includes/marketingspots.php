@@ -17,14 +17,14 @@
 /**
  * The maintenance layout.
  *
- * @package   theme_eguru
+ * @package   theme_eva_um
  * @copyright 2015 LMSACE Dev Team,lmsace.com
  * @author    LMSACE Dev Team
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 /**
- * eguru_marketingSpot
+ * eva_um_marketingSpot
  *
  * return string $content
  */
@@ -33,7 +33,7 @@
  * marketingspot
  * @return string
  */
-function eguru_marketingspot() {
+function eva_um_marketingspot() {
 
     global $PAGE;
 
@@ -44,9 +44,9 @@ function eguru_marketingspot() {
     (int) $msp = 0;
 
     for ($i = 1; $i <= 4; $i++) {
-        $mspicon = theme_eguru_get_setting('mspot'.$i.'icon');
-        $msptitle = theme_eguru_get_setting('mspot'.$i.'title');
-        $mspdescription = theme_eguru_get_setting('mspot'.$i.'desc');
+        $mspicon = theme_eva_um_get_setting('mspot'.$i.'icon');
+        $msptitle = theme_eva_um_get_setting('mspot'.$i.'title');
+        $mspdescription = theme_eva_um_get_setting('mspot'.$i.'desc');
 
         if (!empty($mspicon) || !empty($msptitle) || !empty($mspdescription)) {
             $msp = $msp + 1;
@@ -75,11 +75,11 @@ function eguru_marketingspot() {
     }
 
     for ($i = 1; $i <= 4; $i++) {
-        $mspicon = theme_eguru_get_setting('mspot'.$i.'icon');
-        $msptitle = theme_eguru_get_setting('mspot'.$i.'title');
-        $msptitle = theme_eguru_lang($msptitle);
-        $mspdescription = theme_eguru_get_setting('mspot'.$i.'desc');
-        $mspdescription = theme_eguru_lang($mspdescription);
+        $mspicon = theme_eva_um_get_setting('mspot'.$i.'icon');
+        $msptitle = theme_eva_um_get_setting('mspot'.$i.'title');
+        $msptitle = theme_eva_um_lang($msptitle);
+        $mspdescription = theme_eva_um_get_setting('mspot'.$i.'desc');
+        $mspdescription = theme_eva_um_lang($mspdescription);
 
         if (!empty($mspicon) || !empty($msptitle) || !empty($mspdescription)) {
             $content .= html_writer::start_tag('div', array('class' => $class));

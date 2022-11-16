@@ -17,7 +17,7 @@
 /**
  * The one column layout.
  *
- * @package   theme_eguru
+ * @package   theme_eva_um
  * @copyright 2015 LMSACE Dev Team,lmsace.com
  * @author    LMSACE Dev Team
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -31,4 +31,4 @@ $templatecontext = [
     'bodyattributes' => $bodyattributes
 ];
 
-echo $OUTPUT->render_from_template('theme_eguru/columns1', $templatecontext);
+echo $OUTPUT->render_from_template('theme_eva_um/columns1', $templatecontext);

@@ -20,14 +20,14 @@
  * This is built using the boost template to allow for new theme's using
  * Moodle's new Boost theme engine
  *
- * @package     theme_eguru
+ * @package     theme_eva_um
  * @copyright   2015 LMSACE Dev Team, lmsace.com
  * @author      LMSACE Dev Team
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 
-namespace theme_eguru\output\core;
+namespace theme_eva_um\output\core;
 
 use moodle_url;
 use lang_string;
@@ -81,7 +81,7 @@ class course_renderer extends \core_course_renderer {
 
                 $course = get_course($courseid);
 
-                $no = get_config('theme_eguru', 'patternselect');
+                $no = get_config('theme_eva_um', 'patternselect');
                 $nimgp = (empty($no)||$no == "default") ? 'default/no-image' : 'cs0'.$no.'/no-image';
                 $noimgurl = $this->output->image_url($nimgp, 'theme');
                 $courseurl = new moodle_url('/course/view.php', array('id' => $courseid ));
@@ -133,20 +133,20 @@ class course_renderer extends \core_course_renderer {
     public function promoted_courses() {
         global $CFG , $DB;
 
-        $pcourseenable = theme_eguru_get_setting('pcourseenable');
+        $pcourseenable = theme_eva_um_get_setting('pcourseenable');
         if (!$pcourseenable) {
             return false;
         }
 
         $featuredcontent = '';
         /* Get Featured courses id from DB */
-        $featuredids = theme_eguru_get_setting('promotedcourses');
+        $featuredids = theme_eva_um_get_setting('promotedcourses');
         $rcourseids = (!empty($featuredids)) ? explode(",", $featuredids) : array();
         if (empty($rcourseids)) {
             return false;
         }
 
-        $hcourseids = theme_eguru_hidden_courses_ids();
+        $hcourseids = theme_eva_um_hidden_courses_ids();
 
         if (!empty($hcourseids)) {
             foreach ($rcourseids as $key => $val) {
@@ -170,8 +170,8 @@ class course_renderer extends \core_course_renderer {
 
         $fcourseids = $rcourseids;
         $totalfcourse = count($fcourseids);
-        $promotedtitle = theme_eguru_get_setting('promotedtitle', 'format_html');
-        $promotedtitle = theme_eguru_lang($promotedtitle);
+        $promotedtitle = theme_eva_um_get_setting('promotedtitle', 'format_html');
+        $promotedtitle = theme_eva_um_lang($promotedtitle);
 
         if (!empty($fcourseids)) {
 
@@ -181,7 +181,7 @@ class course_renderer extends \core_course_renderer {
             foreach ($fcourseids as $courseid) {
                 $info = [];
                 $course = get_course($courseid);
-                $no = get_config('theme_eguru', 'patternselect');
+                $no = get_config('theme_eva_um', 'patternselect');
                 $nimgp = (empty($no)||$no == "default") ? 'default/no-image' : 'cs0'.$no.'/no-image';
                 $noimgurl = $this->output->image_url($nimgp, 'theme');
                 $courseurl = new moodle_url('/course/view.php', array('id' => $courseid ));
@@ -192,8 +192,8 @@ class course_renderer extends \core_course_renderer {
 
                 $imgurl = '';
 
-                $summary = theme_eguru_strip_html_tags($course->summary);
-                $summary = theme_eguru_course_trim_char($summary, 75);
+                $summary = theme_eva_um_strip_html_tags($course->summary);
+                $summary = theme_eva_um_course_trim_char($summary, 75);
 
                 $context = context_course::instance($course->id);
                 $nostudents = count_role_users(5, $context);
@@ -221,7 +221,7 @@ class course_renderer extends \core_course_renderer {
         $template['courses'] = array_chunk($blocks, 5);
         $template['promatedcourse'] = true;
         $template['promotedtitle'] = $promotedtitle;
-        return $this->output->render_from_template("theme_eguru/courseblocks", $template);
+        return $this->output->render_from_template("theme_eva_um/courseblocks", $template);
     }
 
     /**
@@ -315,10 +315,10 @@ class course_renderer extends \core_course_renderer {
      */
     public function frontpage() {
         global $CFG, $SITE;
-        require_once($CFG->dirroot. "/theme/eguru/layout/includes/marketingspots.php");
+        require_once($CFG->dirroot. "/theme/eva_um/layout/includes/marketingspots.php");
         $output = '';
         $output .= $this->promoted_courses();
-        $output .= eguru_marketingspot();
+        $output .= eva_um_marketingspot();
 
         if (isloggedin() and !isguestuser() and isset($CFG->frontpageloggedin)) {
             $frontpagelayout = $CFG->frontpageloggedin;

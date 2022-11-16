@@ -17,7 +17,7 @@
 /**
  * The maintenance layout.
  *
- * @package   theme_eguru
+ * @package   theme_eva_um
  * @copyright 2015 LMSACE Dev Team,lmsace.com
  * @author    LMSACE Dev Team
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -44,4 +44,4 @@ $templatecontext += [
     'regionmainsettingsmenu' => $regionmainsettingsmenu,
     'hasregionmainsettingsmenu' => !empty($regionmainsettingsmenu),
     ];
-$footerlayout = $OUTPUT->render_from_template('theme_eguru/footer', $templatecontext);
+$footerlayout = $OUTPUT->render_from_template('theme_eva_um/footer', $templatecontext);

@@ -17,7 +17,7 @@
 /**
  * The embedded layout.
  *
- * @package   theme_eguru
+ * @package   theme_eva_um
  * @copyright 2015 LMSACE Dev Team,lmsace.com
  * @author    LMSACE Dev Team
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later

@@ -17,7 +17,7 @@
 /**
  * frontpage.php
  *
- * @package   theme_eguru
+ * @package   theme_eva_um
  * @copyright 2015 LMSACE Dev Team,lmsace.com
  * @author    LMSACE Dev Team
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -77,7 +77,7 @@ if ($PAGE->has_secondary_navigation()) {
     }
 }
 
-$primary = new \theme_eguru\navigation\primary($PAGE);
+$primary = new \theme_eva_um\navigation\primary($PAGE);
 $renderer = $PAGE->get_renderer('core');
 $primarymenu = $primary->export_for_template($renderer);
 $buildregionmainsettings = !$PAGE->include_region_main_settings_in_header_actions() && !$PAGE->has_secondary_navigation();
@@ -87,7 +87,7 @@ $regionmainsettingsmenu = $buildregionmainsettings ? $OUTPUT->region_main_settin
 $header = $PAGE->activityheader;
 $headercontent = $header->export_for_template($renderer);
 // Slide show content.
-$slideshow = theme_eguru_frontpage_slideshow();
+$slideshow = theme_eva_um_frontpage_slideshow();
 $templatecontext += [
     'sitename' => format_string($SITE->shortname, true, ['context' => context_course::instance(SITEID), "escape" => false]),
     'output' => $OUTPUT,
@@ -111,5 +111,5 @@ $templatecontext += [
     'slideshow' => $slideshow,
 ];
 
-echo $OUTPUT->render_from_template('theme_eguru/frontpage', $templatecontext);
+echo $OUTPUT->render_from_template('theme_eva_um/frontpage', $templatecontext);
 

@@ -20,7 +20,7 @@
  * This is built using the boost template to allow for new theme's using
  * Moodle's new Boost theme engine
  *
- * @package     theme_eguru
+ * @package     theme_eva_um
  * @copyright   2015 LMSACE Dev Team, lmsace.com
  * @author      LMSACE Dev Team
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -29,7 +29,7 @@
 defined('MOODLE_INTERNAL') || die;
 
 // The current module version (Date: YYYYMMDDXX).
-$plugin->version   = 2022051903;
+$plugin->version   = 2022111603;
 
 // Version maturity level.
 $plugin->maturity = MATURITY_STABLE;
@@ -41,7 +41,7 @@ $plugin->release = 'v4.0.3';
 $plugin->requires  = 2022041900;
 
 // Full name of the plugin (used for diagnostics).
-$plugin->component = 'theme_eguru';
+$plugin->component = 'theme_eva_um';
 
 // Plugin dependencies and dependencies version.
 $plugin->dependencies = array(
